@@ -26,7 +26,7 @@
 - Optimize **supply chain efficiency** by assessing material procurement timelines.
 - Reduce **waiting periods** for production inputs.
 
-### **6️⃣ Any other aspects/analysis/trends that you can bring to the table
+### **6️⃣ Any other aspects/analysis/trends that you can bring to the table**
 
 ## Datasets
 Datasets can be downloaded from this link [DataSet](https://www.kaggle.com/datasets/sloozecareers/slooze-challenge/data)
