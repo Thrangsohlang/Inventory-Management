@@ -30,3 +30,24 @@
 
 ## Datasets
 Datasets can be downloaded from this link [DataSet](https://www.kaggle.com/datasets/sloozecareers/slooze-challenge/data)
+
+## 🧪 Example: Sales Insights
+
+The :mod:`inventory` package provides helpers for analysing the provided
+``datasets.zip`` archive.  For instance, the snippet below prints the five
+best-selling products from the sales dataset:
+
+```python
+from inventory import top_selling_from_zip
+
+top = top_selling_from_zip(
+    "datasets.zip",
+    sales_file="SalesFINAL12312016.csv",  # name inside the archive
+    product_col="Item",                   # product identifier column
+    quantity_col="Quantity",              # quantity sold column
+    top_n=5,
+)
+print(top)
+```
+
+Adjust the column names according to those used in the dataset.
