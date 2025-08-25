@@ -3,6 +3,10 @@ from __future__ import annotations
 
 import pandas as pd
 
+from pathlib import Path
+
+from .datasets import load_datasets
+
 
 def compute_lead_times(
     df: pd.DataFrame,
@@ -42,3 +46,25 @@ def compute_lead_times(
         return lead_times.groupby(df[group_col]).mean()
 
     return lead_times
+
+
+def compute_lead_times_from_zip(
+    zip_path: str | Path,
+    purchases_file: str,
+    order_date_col: str,
+    receipt_date_col: str,
+    *,
+    group_col: str | None = None,
+) -> pd.Series:
+    """Load purchase data from ``zip_path`` and compute lead times."""
+
+    datasets = load_datasets(zip_path, files=[purchases_file])
+    key = Path(purchases_file).stem
+    if key not in datasets:
+        raise FileNotFoundError(f"{purchases_file!r} not found in {zip_path!r}")
+    return compute_lead_times(
+        datasets[key],
+        order_date_col,
+        receipt_date_col,
+        group_col=group_col,
+    )

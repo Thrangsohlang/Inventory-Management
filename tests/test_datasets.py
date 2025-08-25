@@ -6,7 +6,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from inventory import load_datasets, classify_inventory
+from inventory import load_datasets, load_sample_datasets, classify_inventory
 
 
 def _make_zip(path, files):
@@ -35,3 +35,11 @@ def test_classify_with_loaded_data(tmp_path):
     classified = classify_inventory(datasets["inventory"], "value")
     categories = classified.set_index("item")["category"].to_dict()
     assert categories == {"A": "A", "B": "B", "C": "C"}
+
+
+def test_load_sample_datasets(tmp_path):
+    df = pd.DataFrame({"a": [1]})
+    zip_path = _make_zip(tmp_path / "sample.zip", {"first": df})
+
+    loaded = load_sample_datasets(zip_path)
+    assert loaded["first"].equals(df)

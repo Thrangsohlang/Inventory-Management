@@ -70,6 +70,27 @@ def top_selling_from_zip(
     return top_selling_products(
         datasets[key],
         product_col,
-        quantity_col,
+       quantity_col,
+       top_n=top_n,
+    )
+
+
+def top_selling_sample(
+    zip_path: str | Path = "Sample.zip",
+    *,
+    top_n: int = 10,
+) -> pd.DataFrame:
+    """Convenience helper for the bundled sample sales dataset.
+
+    Assumes the sample archive contains ``SalesFINAL12312016_sample.csv`` with
+    product descriptions in the ``Description`` column and quantities in
+    ``SalesQuantity``.
+    """
+
+    return top_selling_from_zip(
+        zip_path,
+        sales_file="SalesFINAL12312016_sample.csv",
+        product_col="Description",
+        quantity_col="SalesQuantity",
         top_n=top_n,
     )
