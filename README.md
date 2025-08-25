@@ -51,3 +51,19 @@ print(top)
 ```
 
 Adjust the column names according to those used in the dataset.
+
+### Working with the bundled sample data
+
+For a quick start the repository includes a smaller ``Sample.zip`` archive.
+Most functions now provide ``*_from_zip`` helpers that load the relevant CSV
+directly from the archive.  For example, to list the top products in the sample
+sales dataset:
+
+```python
+from inventory import top_selling_sample
+
+print(top_selling_sample())  # defaults to "Sample.zip" in the project root
+```
+
+Similar helpers exist for demand forecasting, lead time analysis and other
+inventory calculations.

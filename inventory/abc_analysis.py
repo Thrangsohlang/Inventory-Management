@@ -2,6 +2,9 @@
 from __future__ import annotations
 
 import pandas as pd
+from pathlib import Path
+
+from .datasets import load_datasets
 
 
 def classify_inventory(
@@ -50,3 +53,42 @@ def classify_inventory(
 
     working["category"] = working["cumulative_pct"].apply(_assign)
     return working.drop(columns=["cumulative_pct"])
+
+
+def classify_inventory_from_zip(
+    zip_path: str | Path,
+    inventory_file: str,
+    value_col: str,
+    *,
+    a_threshold: float = 0.8,
+    b_threshold: float = 0.95,
+) -> pd.DataFrame:
+    """Load data from a zip archive and classify inventory items.
+
+    Parameters
+    ----------
+    zip_path:
+        Path to the zip archive containing the inventory CSV.
+    inventory_file:
+        Name of the CSV file within the archive.
+    value_col:
+        Column representing the value of each item.
+    a_threshold, b_threshold:
+        Cumulative percentage cut-offs for class ``A`` and ``B``.
+
+    Returns
+    -------
+    pandas.DataFrame
+        Classified inventory data.
+    """
+
+    datasets = load_datasets(zip_path, files=[inventory_file])
+    key = Path(inventory_file).stem
+    if key not in datasets:
+        raise FileNotFoundError(f"{inventory_file!r} not found in {zip_path!r}")
+    return classify_inventory(
+        datasets[key],
+        value_col,
+        a_threshold=a_threshold,
+        b_threshold=b_threshold,
+    )

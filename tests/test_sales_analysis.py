@@ -1,4 +1,5 @@
 import os
+import os
 import sys
 import zipfile
 
@@ -6,7 +7,7 @@ import pandas as pd
 
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
 
-from inventory import top_selling_products, top_selling_from_zip
+from inventory import top_selling_products, top_selling_from_zip, top_selling_sample
 
 
 def _make_zip(path, files):
@@ -34,4 +35,12 @@ def test_top_selling_from_zip(tmp_path):
         top_n=1,
     )
     assert result.iloc[0]["product"] == "A"
+    assert result.iloc[0]["total_quantity"] == 13
+
+
+def test_top_selling_sample(tmp_path):
+    df = pd.DataFrame({"Description": ["A", "B", "A"], "SalesQuantity": [10, 5, 3]})
+    zip_path = _make_zip(tmp_path / "Sample.zip", {"SalesFINAL12312016_sample": df})
+    result = top_selling_sample(zip_path=zip_path, top_n=1)
+    assert result.iloc[0]["Description"] == "A"
     assert result.iloc[0]["total_quantity"] == 13

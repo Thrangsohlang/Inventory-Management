@@ -55,3 +55,25 @@ def load_datasets(
             data[Path(member).stem] = df
 
     return data
+
+
+def load_sample_datasets(zip_path: str | Path) -> Mapping[str, pd.DataFrame]:
+    """Convenience wrapper around :func:`load_datasets` for sample archives.
+
+    The sample data distributed with this project lives in zip archives.  This
+    helper simply delegates to :func:`load_datasets` but documents the intent
+    more clearly and provides a single import point for users analysing the
+    supplied sample data.
+
+    Parameters
+    ----------
+    zip_path:
+        Path to the sample dataset zip archive.
+
+    Returns
+    -------
+    Mapping[str, pandas.DataFrame]
+        DataFrames for every CSV file contained within ``zip_path``.
+    """
+
+    return load_datasets(zip_path)
